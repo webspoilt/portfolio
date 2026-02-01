@@ -15,11 +15,9 @@ function Scene() {
     const colors = new Float32Array(count * 3)
 
     for (let i = 0; i < count; i++) {
-      const t = Math.random() * Math.PI * 2
-      const r = 15
-      positions[i * 3] = Math.cos(t) * r
-      positions[i * 3 + 1] = Math.sin(t) * r
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 15
+      positions[i * 3] = (Math.random() - 0.5) * 30
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 30
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 30
 
       colors[i * 3] = 0.5 + Math.random() * 0.5
       colors[i * 3 + 1] = 0.3 + Math.random() * 0.3
@@ -31,7 +29,7 @@ function Scene() {
 
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.x += 0.001
+      meshRef.current.rotation.x += 0.002
       meshRef.current.rotation.y += 0.002
     }
   })
@@ -63,30 +61,6 @@ function Scene() {
           </mesh>
         </Float>
       </group>
-
-      <points position={[0, 0, -3]}>
-        <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            count={particles.count}
-            array={particles.positions}
-            itemSize={3}
-          />
-          <bufferAttribute
-            attach="attributes-color"
-            count={particles.count}
-            array={particles.colors}
-            itemSize={3}
-          />
-        </bufferGeometry>
-        <pointsMaterial
-          size={0.02}
-          vertexColors
-          transparent
-          opacity={0.4}
-          sizeAttenuation
-        />
-      </points>
     </>
   )
 }
@@ -106,9 +80,11 @@ export default function Hero3D() {
       >
         <Suspense fallback={null}>
           <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={50} />
-          <ambientLight intensity={0.3} />
-          <pointLight position={[10, 10, 10]} intensity={0.5} color="#8b5cf6" />
-          <pointLight position={[-10, -10, -10]} intensity={0.5} color="#ec4899" />
+
+          <ambientLight intensity={0.4} />
+          <pointLight position={[10, 10, 10]} intensity={0.6} color="#8b5cf6" />
+          <pointLight position={[-10, -10, -10]} intensity={0.6} color="#ec4899" />
+
           <Scene />
         </Suspense>
       </Canvas>

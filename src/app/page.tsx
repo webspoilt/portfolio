@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion'
-import { Github, ExternalLink, Code2, Shield, Terminal, Brain, Cpu, Globe, Lock, Database, Zap, Star, Users, FolderKanban, Menu, X, ArrowRight, Rocket, MessageCircle, Box, Eye, CheckCircle, AlertTriangle, Linkedin, Mail } from 'lucide-react'
+import { Github, ExternalLink, Code2, Shield, Terminal, Brain, Cpu, Globe, Lock, Database, Zap, Star, Users, FolderKanban, Menu, X, ArrowRight, Rocket, MessageCircle, Box, Eye, CheckCircle, AlertTriangle, Linkedin, Mail, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -76,6 +76,13 @@ export default function PortfolioPage() {
       console.error('Error fetching repos:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
     }
   }
 
@@ -210,7 +217,7 @@ export default function PortfolioPage() {
             ease: "easeInOut"
           }}
           style={{ willChange: 'transform' }}
-          className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-3xl"
+          className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-purple-500/20 rounded-full blur-3xl"
         />
         <motion.div
           animate={{
@@ -225,7 +232,7 @@ export default function PortfolioPage() {
             ease: "easeInOut"
           }}
           style={{ willChange: 'transform' }}
-          className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-pink-500/10 rounded-full blur-3xl"
+          className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-pink-500/20 rounded-full blur-3xl"
         />
         <motion.div
           animate={{
@@ -238,7 +245,7 @@ export default function PortfolioPage() {
             ease: "easeInOut"
           }}
           style={{ willChange: 'transform, opacity' }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-blue-500/10 rounded-full blur-3xl"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-blue-500/20 rounded-full blur-3xl"
         />
       </div>
 
@@ -258,7 +265,10 @@ export default function PortfolioPage() {
               {['home', 'featured', 'all-projects', 'skills', 'contact'].map((section) => (
                 <button
                   key={section}
-                  onClick={() => setActiveSection(section)}
+                  onClick={() => {
+                    setActiveSection(section)
+                    scrollToSection(section)
+                  }}
                   className={`capitalize text-sm font-medium transition-all hover:text-purple-400 ${activeSection === section ? 'text-purple-400' : 'text-slate-300'
                     }`}
                 >
@@ -289,6 +299,7 @@ export default function PortfolioPage() {
                   onClick={() => {
                     setActiveSection(section)
                     setMobileMenuOpen(false)
+                    scrollToSection(section)
                   }}
                   className={`capitalize text-sm font-medium transition-all hover:text-purple-400 block w-full text-left ${activeSection === section ? 'text-purple-400' : 'text-slate-300'
                     }`}
@@ -312,8 +323,8 @@ export default function PortfolioPage() {
             className="mb-6"
           >
             <Badge className="text-sm bg-gradient-to-r from-purple-500/20 to-pink-500/20 border-purple-500/50 text-purple-300 px-4 py-1">
-              <Zap className="w-4 h-4 mr-1" />
-              Full-Stack Developer & Security Expert
+              <Sparkles className="w-4 h-4 mr-1" />
+              <span>Full Stack Developer</span>
             </Badge>
           </motion.div>
 
@@ -765,7 +776,7 @@ export default function PortfolioPage() {
                   className="flex items-center gap-4 p-6 bg-slate-800/50 rounded-xl hover:bg-purple-500/20 transition-all duration-300 border border-purple-500/20 hover:border-purple-500/50"
                 >
                   <div className={`p-3 bg-gradient-to-br ${social.label === 'LinkedIn' ? 'from-blue-500' :
-                      social.label === 'Email' ? 'from-purple-500' : 'from-pink-500'
+                    social.label === 'Email' ? 'from-purple-500' : 'from-pink-500'
                     } rounded-xl`}>
                     <div className={social.color}>
                       {social.icon}
