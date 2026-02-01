@@ -15,24 +15,22 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Zeroday Code Scaffold - AI-Powered Development",
-  description: "Modern Next.js scaffold optimized for AI-powered development with Zeroday. Built with TypeScript, Tailwind CSS, and shadcn/ui.",
-  keywords: ["Zeroday", "Next.js", "TypeScript", "Tailwind CSS", "shadcn/ui", "AI development", "React"],
-  authors: [{ name: "Zeroday Team" }],
-  // icons: {
-  //   icon: "/favicon.ico", 
-  // },
+  title: "webspoilt | Full Stack Developer",
+  description: "Portfolio of Biswajeet Arukha - Full Stack Developer building secure, scalable solutions.",
+  keywords: ["webspoilt", "Biswajeet Arukha", "Full Stack Developer", "Portfolio", "Next.js", "React", "Cybersecurity"],
+  authors: [{ name: "Biswajeet Arukha" }],
+  icons: "/favicon.png",
   openGraph: {
-    title: "Zeroday Code Scaffold",
-    description: "AI-powered development with modern React stack",
+    title: "webspoilt | Full Stack Developer",
+    description: "Portfolio of Biswajeet Arukha - Building secure, scalable solutions",
     url: "https://github.com/webspoilt",
-    siteName: "Zeroday",
+    siteName: "webspoilt",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Zeroday Code Scaffold",
-    description: "AI-powered development with modern React stack",
+    title: "webspoilt | Full Stack Developer",
+    description: "Portfolio of Biswajeet Arukha - Building secure, scalable solutions",
   },
 };
 
