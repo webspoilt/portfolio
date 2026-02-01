@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,9 +19,9 @@ export const metadata: Metadata = {
   description: "Modern Next.js scaffold optimized for AI-powered development with Zeroday. Built with TypeScript, Tailwind CSS, and shadcn/ui.",
   keywords: ["Zeroday", "Next.js", "TypeScript", "Tailwind CSS", "shadcn/ui", "AI development", "React"],
   authors: [{ name: "Zeroday Team" }],
-  icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg", // TODO: Update logo URL if available
-  },
+  // icons: {
+  //   icon: "/favicon.ico", 
+  // },
   openGraph: {
     title: "Zeroday Code Scaffold",
     description: "AI-powered development with modern React stack",
@@ -47,6 +48,7 @@ export default function RootLayout({
       >
         {children}
         <Toaster />
+        <Analytics />
       </body>
     </html>
   );
