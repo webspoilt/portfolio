@@ -25,21 +25,20 @@ export default function WebspoiltLogo() {
               <stop offset="100%" stopColor="#8b5cf6" />
             </linearGradient>
             <filter id="glow">
-              <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+              <feGaussianBlur stdDeviation="2" result="coloredBlur" />
               <feMerge>
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
+                <feMergeNode in="coloredBlur" />
+                <feMergeNode in="SourceGraphic" />
               </feMerge>
             </filter>
           </defs>
-          
+
           {/* Shield Background */}
           <motion.path
-            d="M20 2L4 10V20C4 28 20 38 20 38C20 38 36 28 36 20V10L20 2Z"
+            d="M20 2L4 10V20C4 28L36 40V20C20 40V36C20 40V20C4 28L36 40V20C20 40V36C20"
             fill="none"
             stroke="url(#logoGradient)"
             strokeWidth="2"
-            filter="url(#glow)"
             animate={{
               opacity: [0.5, 1, 0.5],
             }}
@@ -49,7 +48,7 @@ export default function WebspoiltLogo() {
               ease: "easeInOut"
             }}
           />
-          
+
           {/* Code Brackets Inside Shield */}
           <text
             x="20"
@@ -62,7 +61,7 @@ export default function WebspoiltLogo() {
           >
             {'<W/>'}
           </text>
-          
+
           {/* Orbiting Dots */}
           <motion.circle
             cx="20"
@@ -70,31 +69,22 @@ export default function WebspoiltLogo() {
             r="2"
             fill="#ec4899"
             animate={{
-              cx: [20, 34, 20, 6, 20],
-              cy: [6, 20, 34, 20, 6],
+              cx: [20, 34, 20],
+              cy: [6, 20, 6],
             }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "linear"
-            }}
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
           />
-          
+
           <motion.circle
             cx="20"
             cy="34"
             r="1.5"
             fill="#8b5cf6"
             animate={{
-              cx: [20, 6, 20, 34, 20],
-              cy: [34, 20, 6, 20, 34],
+              cx: [20, 6, 20],
+              cy: [34, 20, 34],
             }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "linear",
-              delay: 2
-            }}
+            transition={{ duration: 4, repeat: Infinity, ease: "linear", delay: 2 }}
           />
         </svg>
       </motion.div>
@@ -103,7 +93,7 @@ export default function WebspoiltLogo() {
       <div className="flex flex-col">
         <motion.span
           className="text-2xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-gradient"
-          whileHover={{ 
+          whileHover={{
             backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
           }}
           transition={{ duration: 2 }}
@@ -113,7 +103,7 @@ export default function WebspoiltLogo() {
         <motion.span
           className="text-xs text-purple-400/70"
           animate={{ opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 2, repeat: Infinity }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
           Secure. Scalable. Smart.
         </motion.span>

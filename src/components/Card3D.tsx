@@ -2,15 +2,14 @@
 
 import { useRef, useState, useEffect } from 'react'
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
-import { ReactNode } from 'react'
 
 interface Card3DProps {
-  children: ReactNode
+  children: React.ReactNode
   className?: string
   intensity?: number
 }
 
-export default function Card3D({ children, className = '', intensity = 20 }: Card3DProps) {
+export default function Card3D({ children, className = '', intensity = 15 }: Card3DProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [isHovered, setIsHovered] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
@@ -24,7 +23,6 @@ export default function Card3D({ children, className = '', intensity = 20 }: Car
   const rotateX = useTransform(mouseY, [-0.5, 0.5], [intensity, -intensity])
   const rotateY = useTransform(mouseX, [-0.5, 0.5], [-intensity, intensity])
 
-  // Detect mobile on mount
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768)
@@ -35,14 +33,14 @@ export default function Card3D({ children, className = '', intensity = 20 }: Car
   }, [])
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current || isMobile) return // Skip 3D effect on mobile
-    
+    if (!ref.current || isMobile) return
+
     const rect = ref.current.getBoundingClientRect()
     const width = rect.width
     const height = rect.height
     const mouseX = (e.clientX - rect.left) / width - 0.5
     const mouseY = (e.clientY - rect.top) / height - 0.5
-    
+
     x.set(mouseX)
     y.set(mouseY)
   }
@@ -68,8 +66,8 @@ export default function Card3D({ children, className = '', intensity = 20 }: Car
       onMouseLeave={handleMouseLeave}
       whileHover={{ scale: 1.01 }}
       animate={{
-        boxShadow: isHovered && !isMobile 
-          ? '0 20px 40px -10px rgba(139, 92, 246, 0.3)' 
+        boxShadow: isHovered && !isMobile
+          ? '0 20px 40px -10px rgba(139, 92, 246, 0.3)'
           : '0 10px 30px -10px rgba(0, 0, 0, 0.5)'
       }}
       transition={{

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion'
 import { Github, ExternalLink, Code2, Shield, Terminal, Brain, Cpu, Globe, Lock, Database, Zap, Star, Users, FolderKanban, Menu, X, ArrowRight, Rocket, MessageCircle, Box, Eye, CheckCircle, AlertTriangle, Linkedin, Mail } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -10,9 +10,9 @@ import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import Link from 'next/link'
 import WebspoiltLogo from '@/components/WebspoiltLogo'
+import Hero3D from '@/components/3DHero'
 import Card3D from '@/components/Card3D'
 import MagneticButton from '@/components/MagneticButton'
-// // import Hero3D from '@/components/3DHero' // Temporarily disabled due to Turbopack cache issue
 
 interface GitHubRepo {
   id: number
@@ -176,7 +176,9 @@ export default function PortfolioPage() {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.15 }
+      transition: {
+        staggerChildren: 0.15
+      }
     }
   }
 
@@ -301,7 +303,7 @@ export default function PortfolioPage() {
 
       {/* Hero Section */}
       <section id="home" className="min-h-screen flex items-center justify-center pt-20 px-4 relative overflow-hidden">
-        {/* <Hero3D /> Temporarily disabled due to Turbopack cache issue */}
+        <Hero3D />
         <div className="container mx-auto text-center relative z-10 pointer-events-none">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -310,7 +312,8 @@ export default function PortfolioPage() {
             className="mb-6"
           >
             <Badge className="text-sm bg-gradient-to-r from-purple-500/20 to-pink-500/20 border-purple-500/50 text-purple-300 px-4 py-1">
-              <SparkleIcon />
+              <Zap className="w-4 h-4 mr-1" />
+              Full-Stack Developer & Security Expert
             </Badge>
           </motion.div>
 
@@ -335,12 +338,7 @@ export default function PortfolioPage() {
             Building the future with secure, scalable solutions. From OS kernels to AI-powered platforms.
           </motion.p>
 
-          <div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-wrap gap-4 justify-center mb-12 pointer-events-auto"
-          >
+          <div className="flex flex-wrap gap-4 justify-center mb-12 pointer-events-auto">
             <MagneticButton strength={0.6}>
               <Button
                 asChild
@@ -431,7 +429,7 @@ export default function PortfolioPage() {
             viewport={{ once: true, margin: "-100px" }}
             className="space-y-16"
           >
-            {pinnedProjects.map((project, index) => (
+            {pinnedProjects.map((project) => (
               <Card3D key={project.name} intensity={15} className="relative group">
                 <div className={`absolute inset-0 bg-gradient-to-r ${project.gradient} rounded-3xl blur-xl opacity-20 group-hover:opacity-30 transition-opacity duration-500`} />
                 <Card className="relative bg-gradient-to-br from-slate-900/80 to-black/80 backdrop-blur-xl border-purple-500/20 hover:border-purple-500/50 transition-all duration-500 overflow-hidden">
@@ -446,7 +444,7 @@ export default function PortfolioPage() {
                           transition={{ duration: 0.6 }}
                           className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${project.gradient} flex items-center justify-center mb-6 shadow-lg shadow-purple-500/30`}
                         >
-                          <div className="text-white">
+                          <div className="text-white text-3xl">
                             {project.icon}
                           </div>
                         </motion.div>
@@ -480,18 +478,27 @@ export default function PortfolioPage() {
                         {/* Action Buttons */}
                         <div className="flex flex-wrap gap-3">
                           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                            <Button asChild size="lg" className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0">
+                            <Button
+                              asChild
+                              size="lg"
+                              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0 shadow-lg shadow-purple-500/30"
+                            >
                               <Link href={project.url} target="_blank" rel="noopener noreferrer">
-                                <Github className="mr-2 h-4 w-4" />
+                                <Github className="mr-2 h-5 w-5" />
                                 View on GitHub
                               </Link>
                             </Button>
                           </motion.div>
                           {project.website && (
                             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                              <Button asChild size="lg" variant="outline" className="border-purple-500/50 text-purple-300 hover:bg-purple-500/10">
+                              <Button
+                                asChild
+                                size="lg"
+                                variant="outline"
+                                className="border-purple-500/50 text-purple-300 hover:bg-purple-500/10"
+                              >
                                 <Link href={project.website} target="_blank" rel="noopener noreferrer">
-                                  <ExternalLink className="mr-2 h-4 w-4" />
+                                  <ExternalLink className="ml-2 h-5 w-5" />
                                   Visit Website
                                 </Link>
                               </Button>
@@ -503,10 +510,10 @@ export default function PortfolioPage() {
                       {/* Features */}
                       <div className="lg:w-2/3">
                         <h4 className="text-lg font-semibold text-purple-300 mb-4 flex items-center gap-2">
-                          <Star className="w-5 h-5" />
+                          <Star className="w-5 h-5 text-purple-400" />
                           Key Features
                         </h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                           {project.features.map((feature) => (
                             <motion.div
                               key={feature}
@@ -662,7 +669,7 @@ export default function PortfolioPage() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-gradient">
                 Skills & Expertise
               </span>
             </h2>
@@ -691,7 +698,9 @@ export default function PortfolioPage() {
                   <CardHeader>
                     <div className="flex items-center gap-3 mb-2">
                       <div className="p-3 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl">
-                        <div className="text-white">{skill.icon}</div>
+                        <div className="text-white">
+                          {skill.icon}
+                        </div>
                       </div>
                       <CardTitle className="text-xl text-white">{skill.name}</CardTitle>
                     </div>
@@ -699,7 +708,7 @@ export default function PortfolioPage() {
                   <CardContent>
                     <ul className="space-y-3">
                       {skill.items.map((item) => (
-                        <li key={item} className="flex items-center gap-3 text-sm text-slate-300">
+                        <li key={item} className="flex items-center gap-3 text-slate-300">
                           <div className="w-2 h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full" />
                           {item}
                         </li>
@@ -725,7 +734,7 @@ export default function PortfolioPage() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-gradient">
                 Let's Connect
               </span>
             </h2>
@@ -753,14 +762,18 @@ export default function PortfolioPage() {
                   target={social.label !== 'Email' ? '_blank' : undefined}
                   rel={social.label !== 'Email' ? 'noopener noreferrer' : undefined}
                   whileHover={{ scale: 1.05, y: -5 }}
-                  className={`flex items-center gap-4 p-6 bg-slate-800/50 rounded-xl hover:bg-purple-500/20 transition-all duration-300 border border-purple-500/20 hover:border-purple-500/50`}
+                  className="flex items-center gap-4 p-6 bg-slate-800/50 rounded-xl hover:bg-purple-500/20 transition-all duration-300 border border-purple-500/20 hover:border-purple-500/50"
                 >
-                  <div className={`p-3 bg-gradient-to-br ${social.label === 'LinkedIn' ? 'from-blue-500' : social.label === 'Email' ? 'from-purple-500' : 'from-pink-500'} to-transparent rounded-xl`}>
-                    <div className={`${social.color}`}>{social.icon}</div>
+                  <div className={`p-3 bg-gradient-to-br ${social.label === 'LinkedIn' ? 'from-blue-500' :
+                      social.label === 'Email' ? 'from-purple-500' : 'from-pink-500'
+                    } rounded-xl`}>
+                    <div className={social.color}>
+                      {social.icon}
+                    </div>
                   </div>
                   <div>
                     <div className="font-semibold text-white">{social.label}</div>
-                    <div className="text-sm text-slate-400">{social.value}</div>
+                    <div className="text-sm text-slate-300">{social.value}</div>
                   </div>
                 </motion.a>
               ))}
@@ -772,7 +785,7 @@ export default function PortfolioPage() {
       {/* Footer */}
       <footer className="py-8 px-4 border-t border-purple-500/20">
         <div className="container mx-auto text-center">
-          <p className="text-slate-400">
+          <p className="text-slate-400 flex items-center justify-center gap-2">
             Made with <span className="text-pink-500">❤️</span> by Biswajeet Arukha
           </p>
           <p className="text-sm text-slate-500 mt-2">© 2025 webspoilt. All rights reserved.</p>
@@ -791,20 +804,11 @@ export default function PortfolioPage() {
           rel="noopener noreferrer"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className="p-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition-all"
+          className="p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition-all"
         >
           <Github className="w-6 h-6 text-white" />
         </motion.a>
       </motion.div>
-    </div>
-  )
-}
-
-function SparkleIcon() {
-  return (
-    <div className="flex items-center gap-2">
-      <Zap className="w-4 h-4" />
-      Full-Stack Developer & Security Expert
     </div>
   )
 }

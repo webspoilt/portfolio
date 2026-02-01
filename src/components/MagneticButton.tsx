@@ -1,10 +1,10 @@
 'use client'
 
-import { useRef, useState, useEffect, ReactNode } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 
 interface MagneticButtonProps {
-  children: ReactNode
+  children: React.ReactNode
   className?: string
   strength?: number
 }
@@ -20,7 +20,6 @@ export default function MagneticButton({ children, className = '', strength = 0.
   const mouseX = useSpring(x, springConfig)
   const mouseY = useSpring(y, springConfig)
 
-  // Detect mobile on mount
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768)
@@ -31,7 +30,7 @@ export default function MagneticButton({ children, className = '', strength = 0.
   }, [])
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current || isMobile) return // Skip magnetic effect on mobile for better performance
+    if (!ref.current || isMobile) return
 
     const { left, top, width, height } = ref.current.getBoundingClientRect()
     const centerX = left + width / 2

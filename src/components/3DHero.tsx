@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useMemo, Suspense, useState } from 'react'
+import { useMemo, useRef, Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Stars, Float, PerspectiveCamera } from '@react-three/drei'
 import * as THREE from 'three'
@@ -8,24 +8,24 @@ import * as THREE from 'three'
 function Scene() {
   const meshRef = useRef<THREE.Mesh>(null)
 
-  // Create particles - optimized count for smooth performance
+  // Create particles - very optimized count
   const particles = useMemo(() => {
-    const count = 800
+    const count = 500
     const positions = new Float32Array(count * 3)
     const colors = new Float32Array(count * 3)
-    
+
     for (let i = 0; i < count; i++) {
       const t = Math.random() * Math.PI * 2
-      const r = 20
+      const r = 15
       positions[i * 3] = Math.cos(t) * r
       positions[i * 3 + 1] = Math.sin(t) * r
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 30
-      
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 15
+
       colors[i * 3] = 0.5 + Math.random() * 0.5
       colors[i * 3 + 1] = 0.3 + Math.random() * 0.3
       colors[i * 3 + 2] = 0.8 + Math.random() * 0.2
     }
-    
+
     return { positions, colors, count }
   }, [])
 
@@ -40,27 +40,29 @@ function Scene() {
     <>
       <Stars
         radius={50}
-        depth={25}
-        count={1500}
+        depth={20}
+        count={1000}
         factor={2}
         saturation={0}
         fade
-        speed={0.2}
+        speed={0.3}
       />
 
-      <Float speed={0.8} rotationIntensity={0.15} floatIntensity={0.15}>
-        <mesh ref={meshRef} position={[0, 0, 0]}>
-          <icosahedronGeometry args={[1.5, 0]} />
-          <meshStandardMaterial
-            color="#8b5cf6"
-            emissive="#8b5cf6"
-            emissiveIntensity={0.2}
-            metalness={0.8}
-            roughness={0.2}
-            wireframe
-          />
-        </mesh>
-      </Float>
+      <group position={[0, 0, 0]}>
+        <Float speed={1} rotationIntensity={0.2} floatIntensity={0.2}>
+          <mesh ref={meshRef} position={[0, 0, 0]}>
+            <icosahedronGeometry args={[1.5, 0]} />
+            <meshStandardMaterial
+              color="#8b5cf6"
+              emissive="#8b5cf6"
+              emissiveIntensity={0.2}
+              metalness={0.7}
+              roughness={0.3}
+              wireframe
+            />
+          </mesh>
+        </Float>
+      </group>
 
       <points position={[0, 0, -3]}>
         <bufferGeometry>
@@ -90,54 +92,26 @@ function Scene() {
 }
 
 export default function Hero3D() {
-  const [loaded, setLoaded] = useState(false)
-
   return (
-    <div 
-      className="absolute inset-0 z-0"
-      style={{ 
-        willChange: 'transform'
-      }}
-    >
+    <div className="absolute inset-0 z-0">
       <Canvas
         dpr={[1, 1.5]}
         performance={{ min: 0.5 }}
-        gl={{ 
-          antialias: true, 
+        gl={{
+          antialias: true,
           alpha: true,
           powerPreference: 'high-performance'
         }}
         className="bg-transparent"
-        onCreated={() => setLoaded(true)}
       >
         <Suspense fallback={null}>
           <PerspectiveCamera makeDefault position={[0, 0, 8]} fov={50} />
-          
           <ambientLight intensity={0.3} />
-          <pointLight position={[10, 10, 10]} intensity={0.6} color="#8b5cf6" />
-          <pointLight position={[-10, -10, -10]} intensity={0.6} color="#ec4899" />
-          
+          <pointLight position={[10, 10, 10]} intensity={0.5} color="#8b5cf6" />
+          <pointLight position={[-10, -10, -10]} intensity={0.5} color="#ec4899" />
           <Scene />
         </Suspense>
       </Canvas>
-
-      {!loaded && (
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            zIndex: 10,
-            opacity: 1,
-            transition: 'opacity 0.3s ease'
-          }}
-        >
-          <span style={{ color: 'white', fontSize: '14px' }}>Loading 3D Scene...</span>
-        </div>
-      )}
     </div>
   )
 }
