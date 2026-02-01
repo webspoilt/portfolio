@@ -45,6 +45,7 @@ export default function PortfolioPage() {
   const [activeSection, setActiveSection] = useState('home')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [particles, setParticles] = useState<Array<{ id: number, x: number, y: number, opacity: number }>>([])
 
   const { scrollYProgress } = useScroll()
   const scaleX = useSpring(scrollYProgress, {
@@ -62,9 +63,33 @@ export default function PortfolioPage() {
 
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY })
+
+      // Add particles at mouse position
+      if (Math.random() > 0.7) {
+        const newParticle = {
+          id: Date.now() + Math.random(),
+          x: e.clientX,
+          y: e.clientY,
+          opacity: 1
+        }
+        setParticles(prev => [...prev.slice(-20), newParticle])
+      }
     }
+
     window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
+
+    // Fade out particles
+    const interval = setInterval(() => {
+      setParticles(prev => prev
+        .map(p => ({ ...p, opacity: p.opacity - 0.02 }))
+        .filter(p => p.opacity > 0)
+      )
+    }, 50)
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      clearInterval(interval)
+    }
   }, [])
 
   const fetchGitHubRepos = async () => {
@@ -183,9 +208,7 @@ export default function PortfolioPage() {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.15
-      }
+      transition: { staggerChildren: 0.15 }
     }
   }
 
@@ -202,12 +225,12 @@ export default function PortfolioPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-purple-950/50 to-black text-white overflow-x-hidden relative">
-      {/* Animated Background - Optimized for smooth performance */}
+      {/* Animated Background - Mouse-tracking gradient blobs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <motion.div
           animate={{
-            x: [0, 80, 0],
-            y: [0, -80, 0],
+            x: mousePosition.x * 0.02,
+            y: mousePosition.y * 0.02,
             scale: [1, 1.15, 1],
             rotate: [0, 180, 360]
           }}
@@ -221,8 +244,8 @@ export default function PortfolioPage() {
         />
         <motion.div
           animate={{
-            x: [0, -80, 0],
-            y: [0, 80, 0],
+            x: -mousePosition.x * 0.03,
+            y: -mousePosition.y * 0.03,
             scale: [1.15, 1, 1.15],
             rotate: [360, 180, 0]
           }}
@@ -237,7 +260,9 @@ export default function PortfolioPage() {
         <motion.div
           animate={{
             scale: [1, 1.3, 1],
-            opacity: [0.25, 0.5, 0.25]
+            opacity: [0.3, 0.6, 0.3],
+            x: mousePosition.x * 0.01,
+            y: mousePosition.y * 0.01
           }}
           transition={{
             duration: 20,
@@ -247,6 +272,26 @@ export default function PortfolioPage() {
           style={{ willChange: 'transform, opacity' }}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-blue-500/20 rounded-full blur-3xl"
         />
+
+        {/* Cursor-following particles */}
+        {particles.map(particle => (
+          <motion.div
+            key={particle.id}
+            initial={{ scale: 0, opacity: 1 }}
+            animate={{
+              scale: 1,
+              opacity: particle.opacity,
+              y: particle.y - 20
+            }}
+            style={{
+              position: 'absolute',
+              left: particle.x,
+              top: particle.y,
+              willChange: 'transform, opacity'
+            }}
+            className="w-2 h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"
+          />
+        ))}
       </div>
 
       {/* Progress Bar */}
@@ -349,7 +394,12 @@ export default function PortfolioPage() {
             Building the future with secure, scalable solutions. From OS kernels to AI-powered platforms.
           </motion.p>
 
-          <div className="flex flex-wrap gap-4 justify-center mb-12 pointer-events-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="flex flex-wrap gap-4 justify-center mb-12 pointer-events-auto"
+          >
             <MagneticButton strength={0.6}>
               <Button
                 asChild
@@ -375,7 +425,7 @@ export default function PortfolioPage() {
                 </Link>
               </Button>
             </MagneticButton>
-          </div>
+          </motion.div>
 
           {/* Stats */}
           <motion.div
@@ -424,12 +474,12 @@ export default function PortfolioPage() {
               Pinned Projects
             </Badge>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-gradient">
-                Featured Work
+              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+                Featured Projects
               </span>
             </h2>
             <p className="text-slate-300 text-lg max-w-2xl mx-auto">
-              My top projects showcasing expertise in OS development, cybersecurity, AI, and full-stack applications
+              A showcase of my best work and technical achievements
             </p>
           </motion.div>
 
@@ -437,110 +487,85 @@ export default function PortfolioPage() {
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true }}
             className="space-y-16"
           >
             {pinnedProjects.map((project) => (
-              <Card3D key={project.name} intensity={15} className="relative group">
-                <div className={`absolute inset-0 bg-gradient-to-r ${project.gradient} rounded-3xl blur-xl opacity-20 group-hover:opacity-30 transition-opacity duration-500`} />
-                <Card className="relative bg-gradient-to-br from-slate-900/80 to-black/80 backdrop-blur-xl border-purple-500/20 hover:border-purple-500/50 transition-all duration-500 overflow-hidden">
-                  <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-
-                  <CardContent className="p-8 md:p-12">
-                    <div className="flex flex-col lg:flex-row gap-8">
-                      {/* Icon & Title */}
-                      <div className="lg:w-1/3">
-                        <motion.div
-                          whileHover={{ rotate: 360, scale: 1.1 }}
-                          transition={{ duration: 0.6 }}
-                          className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${project.gradient} flex items-center justify-center mb-6 shadow-lg shadow-purple-500/30`}
-                        >
-                          <div className="text-white text-3xl">
-                            {project.icon}
-                          </div>
-                        </motion.div>
-                        <h3 className="text-3xl md:text-4xl font-bold text-white mb-2">
-                          {project.title}
-                        </h3>
-                        <div className="flex items-center gap-2 mb-4">
-                          <Badge variant="secondary" className="bg-purple-500/20 border-purple-500/30 text-purple-300">
-                            Featured
-                          </Badge>
-                          {project.website && (
-                            <Badge variant="secondary" className="bg-green-500/20 border-green-500/30 text-green-300">
-                              <Globe className="w-3 h-3 mr-1" />
-                              Live
-                            </Badge>
-                          )}
-                        </div>
-                        <p className="text-slate-300 mb-6">
-                          {project.description}
-                        </p>
-
-                        {/* Tech Stack */}
-                        <div className="flex flex-wrap gap-2 mb-6">
-                          {project.tech.map((tech) => (
-                            <Badge key={tech} variant="outline" className="text-xs border-purple-500/30 text-slate-300">
-                              {tech}
-                            </Badge>
-                          ))}
-                        </div>
-
-                        {/* Action Buttons */}
-                        <div className="flex flex-wrap gap-3">
-                          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                            <Button
-                              asChild
-                              size="lg"
-                              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0 shadow-lg shadow-purple-500/30"
-                            >
-                              <Link href={project.url} target="_blank" rel="noopener noreferrer">
-                                <Github className="mr-2 h-5 w-5" />
-                                View on GitHub
-                              </Link>
-                            </Button>
+              <motion.div
+                key={project.name}
+                variants={itemVariants}
+                className="relative"
+              >
+                <Card3D intensity={15} className="w-full">
+                  <Card className="bg-gradient-to-br from-slate-900/50 to-black/50 backdrop-blur-sm border-purple-500/20 hover:border-purple-500/50 transition-all duration-300 overflow-hidden">
+                    <CardContent className="p-6 md:p-8">
+                      <div className="flex flex-col lg:flex-row gap-8">
+                        {/* Left Side - Icon & Buttons */}
+                        <div className="lg:w-1/3 flex flex-col items-center justify-center gap-6">
+                          <motion.div
+                            animate={{
+                              rotate: [0, 360]
+                            }}
+                            transition={{
+                              duration: 20,
+                              repeat: Infinity,
+                              ease: "linear"
+                            }}
+                            className="p-8 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-3xl"
+                          >
+                            <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-6 rounded-2xl">
+                              <div className="text-white">
+                                {project.icon}
+                              </div>
+                            </div>
                           </motion.div>
-                          {project.website && (
+
+                          <div className="flex flex-col gap-3 w-full">
                             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                              <Button
-                                asChild
-                                size="lg"
-                                variant="outline"
-                                className="border-purple-500/50 text-purple-300 hover:bg-purple-500/10"
-                              >
-                                <Link href={project.website} target="_blank" rel="noopener noreferrer">
-                                  <ExternalLink className="ml-2 h-5 w-5" />
-                                  Visit Website
+                              <Button asChild size="lg" className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0 shadow-lg shadow-purple-500/30 w-full">
+                                <Link href={project.url} target="_blank" rel="noopener noreferrer">
+                                  <Github className="mr-2 h-5 w-5" />
+                                  View on GitHub
                                 </Link>
                               </Button>
                             </motion.div>
-                          )}
+                            {project.website && (
+                              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                <Button asChild size="lg" variant="outline" className="border-purple-500/50 text-purple-300 hover:bg-purple-500/10 w-full">
+                                  <Link href={project.website} target="_blank" rel="noopener noreferrer">
+                                    <ExternalLink className="mr-2 h-4 w-4" />
+                                    Visit Website
+                                  </Link>
+                                </Button>
+                              </motion.div>
+                            )}
+                          </div>
                         </div>
-                      </div>
 
-                      {/* Features */}
-                      <div className="lg:w-2/3">
-                        <h4 className="text-lg font-semibold text-purple-300 mb-4 flex items-center gap-2">
-                          <Star className="w-5 h-5 text-purple-400" />
-                          Key Features
-                        </h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          {project.features.map((feature) => (
-                            <motion.div
-                              key={feature}
-                              whileHover={{ x: 5 }}
-                              className="flex items-start gap-3 p-4 bg-slate-800/50 rounded-xl border border-purple-500/10 hover:border-purple-500/30 transition-all"
-                            >
-                              <CheckCircle className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
-                              <span className="text-slate-300">{feature}</span>
-                            </motion.div>
-                          ))}
+                        {/* Features */}
+                        <div className="lg:w-2/3">
+                          <h4 className="text-lg font-semibold text-purple-300 mb-4 flex items-center gap-2">
+                            <Star className="w-5 h-5" />
+                            Key Features
+                          </h4>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {project.features.map((feature) => (
+                              <motion.div
+                                key={feature}
+                                whileHover={{ x: 5 }}
+                                className="flex items-start gap-3 p-4 bg-slate-800/50 rounded-xl border border-purple-500/10 hover:border-purple-500/30 transition-all"
+                              >
+                                <CheckCircle className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
+                                <span className="text-slate-300">{feature}</span>
+                              </motion.div>
+                            ))}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Card3D>
+                    </CardContent>
+                  </Card>
+                </Card3D>
+              </motion.div>
             ))}
           </motion.div>
         </div>
@@ -603,40 +628,25 @@ export default function PortfolioPage() {
                           whileHover={{ scale: 1.2 }}
                           className="text-purple-400 hover:text-pink-400 transition-colors flex-shrink-0"
                         >
-                          <ExternalLink className="w-4 h-4" />
+                          <Github className="w-5 h-5" />
                         </motion.a>
                       </CardTitle>
-                      <CardDescription className="text-slate-300 line-clamp-3">
-                        {repo.description || 'No description available'}
+                      <CardDescription className="text-slate-400">
+                        {repo.description || 'No description'}
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {repo.topics.slice(0, 3).map((topic) => (
-                          <Badge key={topic} variant="secondary" className="text-xs bg-purple-500/20 border-purple-500/30 text-purple-300">
-                            {topic}
-                          </Badge>
-                        ))}
-                      </div>
                       <div className="flex items-center gap-4 text-sm text-slate-400">
                         {repo.language && (
-                          <span className="flex items-center gap-1">
-                            <Code2 className="w-4 h-4" />
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 bg-purple-500 rounded-full" />
                             {repo.language}
-                          </span>
+                          </div>
                         )}
-                        {repo.stargazers_count > 0 && (
-                          <span className="flex items-center gap-1">
-                            <Star className="w-4 h-4 text-yellow-400" />
-                            {repo.stargazers_count}
-                          </span>
-                        )}
-                        {repo.forks_count > 0 && (
-                          <span className="flex items-center gap-1">
-                            <Users className="w-4 h-4" />
-                            {repo.forks_count}
-                          </span>
-                        )}
+                        <div className="flex items-center gap-1">
+                          <Star className="w-4 h-4" />
+                          {repo.stargazers_count}
+                        </div>
                       </div>
                     </CardContent>
                   </Card>
@@ -644,27 +654,6 @@ export default function PortfolioPage() {
               ))}
             </motion.div>
           )}
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="text-center mt-12"
-          >
-            <MagneticButton strength={0.5}>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="border-purple-500/50 text-purple-300 hover:bg-purple-500/10"
-              >
-                <Link href="https://github.com/webspoilt?tab=repositories" target="_blank" rel="noopener noreferrer">
-                  View All Repositories
-                  <ExternalLink className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </MagneticButton>
-          </motion.div>
         </div>
       </section>
 
@@ -680,7 +669,7 @@ export default function PortfolioPage() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-gradient">
+              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                 Skills & Expertise
               </span>
             </h2>
@@ -709,9 +698,7 @@ export default function PortfolioPage() {
                   <CardHeader>
                     <div className="flex items-center gap-3 mb-2">
                       <div className="p-3 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl">
-                        <div className="text-white">
-                          {skill.icon}
-                        </div>
+                        <div className="text-white">{skill.icon}</div>
                       </div>
                       <CardTitle className="text-xl text-white">{skill.name}</CardTitle>
                     </div>
@@ -719,7 +706,7 @@ export default function PortfolioPage() {
                   <CardContent>
                     <ul className="space-y-3">
                       {skill.items.map((item) => (
-                        <li key={item} className="flex items-center gap-3 text-slate-300">
+                        <li key={item} className="flex items-center gap-3 text-sm text-slate-300">
                           <div className="w-2 h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full" />
                           {item}
                         </li>
@@ -745,7 +732,7 @@ export default function PortfolioPage() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-gradient">
+              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                 Let's Connect
               </span>
             </h2>
@@ -773,18 +760,14 @@ export default function PortfolioPage() {
                   target={social.label !== 'Email' ? '_blank' : undefined}
                   rel={social.label !== 'Email' ? 'noopener noreferrer' : undefined}
                   whileHover={{ scale: 1.05, y: -5 }}
-                  className="flex items-center gap-4 p-6 bg-slate-800/50 rounded-xl hover:bg-purple-500/20 transition-all duration-300 border border-purple-500/20 hover:border-purple-500/50"
+                  className={`flex items-center gap-4 p-6 bg-slate-800/50 rounded-xl hover:bg-purple-500/20 transition-all duration-300 border border-purple-500/20 hover:border-purple-500/50`}
                 >
-                  <div className={`p-3 bg-gradient-to-br ${social.label === 'LinkedIn' ? 'from-blue-500' :
-                    social.label === 'Email' ? 'from-purple-500' : 'from-pink-500'
-                    } rounded-xl`}>
-                    <div className={social.color}>
-                      {social.icon}
-                    </div>
+                  <div className={`p-3 bg-gradient-to-br ${social.label === 'LinkedIn' ? 'from-blue-500' : social.label === 'Email' ? 'from-purple-500' : 'from-pink-500'} to-transparent rounded-xl`}>
+                    <div className={`${social.color}`}>{social.icon}</div>
                   </div>
                   <div>
                     <div className="font-semibold text-white">{social.label}</div>
-                    <div className="text-sm text-slate-300">{social.value}</div>
+                    <div className="text-sm text-slate-400">{social.value}</div>
                   </div>
                 </motion.a>
               ))}
@@ -794,9 +777,9 @@ export default function PortfolioPage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-4 border-t border-purple-500/20">
+      <footer className="py-8 px-4 border-t border-purple-500/20 mt-auto">
         <div className="container mx-auto text-center">
-          <p className="text-slate-400 flex items-center justify-center gap-2">
+          <p className="text-slate-400">
             Made with <span className="text-pink-500">❤️</span> by Biswajeet Arukha
           </p>
           <p className="text-sm text-slate-500 mt-2">© 2025 webspoilt. All rights reserved.</p>
@@ -815,7 +798,7 @@ export default function PortfolioPage() {
           rel="noopener noreferrer"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className="p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition-all"
+          className="p-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition-all"
         >
           <Github className="w-6 h-6 text-white" />
         </motion.a>
