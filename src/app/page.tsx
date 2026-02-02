@@ -253,18 +253,16 @@ export default function PortfolioPage() {
         <motion.div
           animate={{
             scale: [1.15, 1, 1.15],
-            rotate: [360, 180, 0]
+            rotate: [360, 180, 0],
+            x: -mouseX,
+            y: -mouseY
           }}
           transition={{
             duration: 30,
             repeat: Infinity,
             ease: "easeInOut"
           }}
-          style={{
-            x: mouseX,
-            y: mouseY,
-            willChange: 'transform'
-          }}
+          style={{ willChange: 'transform' }}
           className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-pink-500/20 rounded-full blur-3xl"
         />
         <motion.div
@@ -611,7 +609,7 @@ export default function PortfolioPage() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient">
                 All Projects
               </span>
             </h2>
@@ -733,7 +731,7 @@ export default function PortfolioPage() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient">
                 Skills & Expertise
               </span>
             </h2>
@@ -796,7 +794,7 @@ export default function PortfolioPage() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient">
                 Let's Connect
               </span>
             </h2>
