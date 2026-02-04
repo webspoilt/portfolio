@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { motion, useScroll, useMotionValue, useSpring } from 'framer-motion'
+import { useEffect, useState, useRef } from 'react'
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion'
 import { Github, ExternalLink, Code2, Shield, Terminal, Brain, Cpu, Globe, Lock, Database, Zap, Star, Users, FolderKanban, Menu, X, ArrowRight, Rocket, MessageCircle, Box, Eye, CheckCircle, AlertTriangle, Linkedin, Mail, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
@@ -253,16 +253,18 @@ export default function PortfolioPage() {
         <motion.div
           animate={{
             scale: [1.15, 1, 1.15],
-            rotate: [360, 180, 0],
-            x: -mouseX,
-            y: -mouseY
+            rotate: [360, 180, 0]
           }}
           transition={{
             duration: 30,
             repeat: Infinity,
             ease: "easeInOut"
           }}
-          style={{ willChange: 'transform' }}
+          style={{
+            x: -mouseX,
+            y: -mouseY,
+            willChange: 'transform'
+          }}
           className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-pink-500/20 rounded-full blur-3xl"
         />
         <motion.div
@@ -609,7 +611,7 @@ export default function PortfolioPage() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient">
+              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                 All Projects
               </span>
             </h2>
@@ -731,7 +733,7 @@ export default function PortfolioPage() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient">
+              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                 Skills & Expertise
               </span>
             </h2>
@@ -794,7 +796,7 @@ export default function PortfolioPage() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient">
+              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                 Let's Connect
               </span>
             </h2>
@@ -839,7 +841,7 @@ export default function PortfolioPage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-4 border-t border-purple-500/20 mt-auto">
+      <footer className="py-8 px-4 border-t border-purple-500/20">
         <div className="container mx-auto text-center">
           <p className="text-slate-400">
             Made with <span className="text-pink-500">❤️</span> by Biswajeet Arukha
@@ -865,6 +867,15 @@ export default function PortfolioPage() {
           <Github className="w-6 h-6 text-white" />
         </motion.a>
       </motion.div>
+    </div>
+  )
+}
+
+function SparkleIcon() {
+  return (
+    <div className="flex items-center gap-2">
+      <Zap className="w-4 h-4" />
+      Full-Stack Developer & Security Expert
     </div>
   )
 }
