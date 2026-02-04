@@ -123,7 +123,7 @@ export default function PortfolioPage() {
       title: 'VAULT',
       description: 'Enterprise-grade secure messaging platform for government and business-critical communications with end-to-end encryption and post-quantum cryptography.',
       url: 'https://github.com/webspoilt/vault',
-      website: 'https://vault.in',
+      website: 'https://b2g-vault.vercel.app/',
       icon: <Lock className="w-8 h-8" />,
       gradient: 'from-emerald-500 via-teal-500 to-cyan-500',
       features: [
