@@ -121,7 +121,7 @@ export default function PortfolioPage() {
     {
       name: 'vault',
       title: 'VAULT',
-      description: 'Enterprise-grade secure messaging platform for government and business-critical communications with end-to-end encryption and post-quantum cryptography.',
+      description: 'Enterprise-grade secure messaging platform for government and business-critical communications with end-to-end encryption and post-quantum cryptography. Founded and built from the ground up to revolutionize secure communications.',
       url: 'https://github.com/webspoilt/vault',
       website: 'https://b2g-vault.vercel.app/',
       icon: <Lock className="w-8 h-8" />,
@@ -134,6 +134,22 @@ export default function PortfolioPage() {
         'Air-Gapped Deployment'
       ],
       tech: ['Next.js', 'Rust', 'Go', 'React Native', 'Tauri']
+    },
+    {
+      name: 'vulnforge-academy',
+      title: 'VulnForge Academy',
+      description: 'Comprehensive cybersecurity training platform offering hands-on vulnerability assessment labs, real-world attack simulations, and progressive learning paths for aspiring security professionals.',
+      url: 'https://github.com/webspoilt/vulnforge-academy',
+      icon: <Shield className="w-8 h-8" />,
+      gradient: 'from-red-500 via-orange-500 to-yellow-500',
+      features: [
+        'Hands-on Vulnerability Labs',
+        'Real-world Attack Simulations',
+        'CTF Challenges & Red Teaming',
+        'OWASP Top 10 Training',
+        'Progressive Learning Paths'
+      ],
+      tech: ['Next.js', 'React', 'Node.js', 'Docker', 'MongoDB']
     },
     {
       name: 'code-janitor',
@@ -203,11 +219,11 @@ export default function PortfolioPage() {
 
   const skills = [
     { icon: <Terminal className="w-6 h-6" />, name: 'OS Development', items: ['Kernel Development', 'Hardware Abstraction', 'Memory Management', 'Device Drivers'] },
-    { icon: <Code2 className="w-6 h-6" />, name: 'Full-Stack', items: ['MERN/MEAN Stack', 'Real-time Apps', 'PWA', 'Next.js & React'] },
-    { icon: <Shield className="w-6 h-6" />, name: 'Cybersecurity', items: ['Web Pen Testing', 'Threat Intelligence', 'Security Auditing', 'Bug Bounty'] },
+    { icon: <Code2 className="w-6 h-6" />, name: 'Full-Stack', items: ['MERN/MEAN Stack', 'Rust & Go', 'Tauri & React Native', 'Next.js & React'] },
+    { icon: <Shield className="w-6 h-6" />, name: 'Cybersecurity', items: ['OWASP/Vulnerability Assessment', 'CTF & Red Teaming', 'Security Training', 'Bug Bounty'] },
     { icon: <Brain className="w-6 h-6" />, name: 'AI & ML', items: ['Deep Learning', 'NLP', 'Computer Vision', 'Predictive Analytics'] },
     { icon: <Lock className="w-6 h-6" />, name: 'Blockchain', items: ['Smart Contracts', 'DeFi Security', 'Web3 Development', 'NFT Platforms'] },
-    { icon: <Cpu className="w-6 h-6" />, name: 'Emerging Tech', items: ['Quantum Computing', 'Edge AI & IoT', 'Metaverse', 'Post-Quantum'] }
+    { icon: <Cpu className="w-6 h-6" />, name: 'Emerging Tech', items: ['Post-Quantum Cryptography', 'Edge AI & IoT', 'Zero-Knowledge Proofs', 'Quantum Computing'] }
   ]
 
   const containerVariants = {
@@ -319,7 +335,7 @@ export default function PortfolioPage() {
             <WebspoiltLogo />
 
             <div className="hidden md:flex items-center gap-8">
-              {['home', 'featured', 'all-projects', 'skills', 'contact'].map((section) => (
+              {['home', 'about', 'featured', 'all-projects', 'skills', 'contact'].map((section) => (
                 <button
                   key={section}
                   onClick={() => {
@@ -350,7 +366,7 @@ export default function PortfolioPage() {
               animate={{ opacity: 1, y: 0 }}
               className="md:hidden mt-4 pb-4 space-y-4"
             >
-              {['home', 'featured', 'all-projects', 'skills', 'contact'].map((section) => (
+              {['home', 'about', 'featured', 'all-projects', 'skills', 'contact'].map((section) => (
                 <button
                   key={section}
                   onClick={() => {
@@ -381,7 +397,7 @@ export default function PortfolioPage() {
           >
             <Badge className="text-sm bg-gradient-to-r from-purple-500/20 to-pink-500/20 border-purple-500/50 text-purple-300 px-4 py-1">
               <Sparkles className="w-4 h-4 mr-1" />
-              <span>Full Stack Developer</span>
+              <span>Full Stack Developer & Founder @ Vault & VulnForge Academy</span>
             </Badge>
           </motion.div>
 
@@ -403,7 +419,7 @@ export default function PortfolioPage() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-xl md:text-2xl text-slate-300 mb-8 max-w-3xl mx-auto"
           >
-            Building the future with secure, scalable solutions. From OS kernels to AI-powered platforms.
+            Building the future with secure, scalable solutions. From OS kernels to AI-powered platforms, and leading initiatives like Vault & VulnForge Academy.
           </motion.p>
 
           <motion.div
@@ -448,7 +464,7 @@ export default function PortfolioPage() {
           >
             {[
               { value: '36+', label: 'Repositories' },
-              { value: '5', label: 'Featured Projects' },
+              { value: '6', label: 'Featured Projects' },
               { value: '6', label: 'Core Domains' }
             ].map((stat) => (
               <div key={stat.label} className="text-center">
@@ -471,6 +487,75 @@ export default function PortfolioPage() {
           </motion.div>
         </div>
       </section>
+
+      {/* About Section */}
+      <section id="about" className="py-20 px-4 relative">
+        <div className="container mx-auto max-w-5xl">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <Badge className="text-sm bg-gradient-to-r from-purple-500/20 to-pink-500/20 border-purple-500/50 text-purple-300 mb-4">
+              <Users className="w-4 h-4 mr-1" />
+              About Me
+            </Badge>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-gradient">
+                Who I Am
+              </span>
+            </h2>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="bg-gradient-to-br from-slate-900/50 to-purple-900/20 backdrop-blur-xl border border-purple-500/20 rounded-3xl p-8 md:p-12"
+          >
+            <div className="space-y-6 text-slate-300 text-lg leading-relaxed">
+              <p>
+                I'm <span className="text-white font-semibold">Biswajeet Arukha</span>, a passionate Full Stack Developer, Cybersecurity Specialist, and Entrepreneur with deep expertise spanning kernel development, AI/ML, blockchain technologies, and secure systems architecture.
+              </p>
+
+              <p>
+                As the <span className="text-purple-400 font-semibold">Founder of Vault</span>, I'm building India's most secure messaging platform, featuring post-quantum cryptography (ML-KEM-768), zero-knowledge architecture, and military-grade encryption designed for government and enterprise communications. Vault represents my vision for a future where privacy is a fundamental right, not a privilege.
+              </p>
+
+              <p>
+                I also founded <span className="text-purple-400 font-semibold">VulnForge Academy</span>, a comprehensive cybersecurity training platform that equips aspiring security professionals with hands-on vulnerability assessment skills, real-world attack simulations, and progressive learning paths. My mission is to democratize cybersecurity education and create the next generation of ethical hackers and security researchers.
+              </p>
+
+              <p>
+                My technical journey spans from low-level OS kernel development with <span className="text-pink-400">UltraOS</span> to creating programming languages like <span className="text-pink-400">NexusLang</span>, building AI-powered tools like <span className="text-pink-400">Code Janitor</span>, and developing secure marketplace platforms like <span className="text-pink-400">TrustMarket</span>. I believe in pushing boundaries and solving complex problems that matter.
+              </p>
+
+              <div className="flex flex-wrap gap-4 pt-4 justify-center">
+                <Badge className="px-4 py-2 bg-emerald-500/20 border-emerald-500/50 text-emerald-300">
+                  <Lock className="w-4 h-4 mr-2" />
+                  Vault Founder
+                </Badge>
+                <Badge className="px-4 py-2 bg-orange-500/20 border-orange-500/50 text-orange-300">
+                  <Shield className="w-4 h-4 mr-2" />
+                  VulnForge Academy Founder
+                </Badge>
+                <Badge className="px-4 py-2 bg-purple-500/20 border-purple-500/50 text-purple-300">
+                  <Code2 className="w-4 h-4 mr-2" />
+                  Full Stack Developer
+                </Badge>
+                <Badge className="px-4 py-2 bg-pink-500/20 border-pink-500/50 text-pink-300">
+                  <Brain className="w-4 h-4 mr-2" />
+                  AI/ML Enthusiast
+                </Badge>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <Separator className="bg-gradient-to-r from-transparent via-purple-500/20 to-transparent" />
 
       {/* Featured Projects Section */}
       <section id="featured" className="py-20 px-4 relative">
@@ -801,7 +886,7 @@ export default function PortfolioPage() {
               </span>
             </h2>
             <p className="text-slate-300 text-lg max-w-2xl mx-auto">
-              Open for collaborations on exciting projects
+              As the founder of Vault and VulnForge Academy, I am always open to collaborations on exciting projects in cybersecurity, full-stack development, data science, AI, and emerging technologies.
             </p>
           </motion.div>
 
