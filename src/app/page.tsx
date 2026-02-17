@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react'
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion'
-import { Github, ExternalLink, Code2, Shield, Terminal, Brain, Cpu, Globe, Lock, Database, Zap, Star, Users, FolderKanban, Menu, X, ArrowRight, Rocket, MessageCircle, Box, Eye, CheckCircle, AlertTriangle, Linkedin, Mail, Sparkles } from 'lucide-react'
+import { Github, ExternalLink, Code2, Shield, Terminal, Brain, Cpu, Globe, Lock, Database, Zap, Star, Users, FolderKanban, Menu, X, ArrowRight, Rocket, MessageCircle, Box, Eye, CheckCircle, AlertTriangle, Linkedin, Mail, Sparkles, Shirt } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -118,6 +118,23 @@ export default function PortfolioPage() {
   }
 
   const pinnedProjects: PinnedProject[] = [
+    {
+      name: 'willitfit',
+      title: 'WillItFit',
+      description: 'AI-powered virtual try-on application revolutionizing e-commerce with accurate size recommendations and augmented reality visualization.',
+      url: 'https://github.com/webspoilt/willitfit',
+      website: 'https://willitfit-smoky.vercel.app/',
+      icon: <Shirt className="w-8 h-8" />,
+      gradient: 'from-cyan-500 via-blue-500 to-indigo-500',
+      features: [
+        'Virtual Try-On',
+        'AI Size Recommendation',
+        'Browser Extension',
+        'Real-time Analysis',
+        'Cross-Platform'
+      ],
+      tech: ['Next.js', 'Python', 'Bun', 'TensorFlow', 'React']
+    },
     {
       name: 'vault',
       title: 'VAULT',
@@ -529,7 +546,7 @@ export default function PortfolioPage() {
               </p>
 
               <p>
-                My technical journey spans from low-level OS kernel development with <span className="text-pink-400">UltraOS</span> to creating programming languages like <span className="text-pink-400">NexusLang</span>, building AI-powered tools like <span className="text-pink-400">Code Janitor</span>, and developing secure marketplace platforms like <span className="text-pink-400">TrustMarket</span>. I believe in pushing boundaries and solving complex problems that matter.
+                My technical journey spans from low-level OS kernel development with <span className="text-pink-400">UltraOS</span> to creating programming languages like <span className="text-pink-400">NexusLang</span>, building AI-powered tools like <span className="text-pink-400">Code Janitor</span>, and developing secure marketplace platforms like <span className="text-pink-400">TrustMarket</span>. I'm also revolutionizing e-commerce with <span className="text-pink-400">WillItFit</span>, an AI-powered virtual try-on solution. I believe in pushing boundaries and solving complex problems that matter.
               </p>
 
               <div className="flex flex-wrap gap-4 pt-4 justify-center">
@@ -548,6 +565,10 @@ export default function PortfolioPage() {
                 <Badge className="px-4 py-2 bg-pink-500/20 border-pink-500/50 text-pink-300">
                   <Brain className="w-4 h-4 mr-2" />
                   AI/ML Enthusiast
+                </Badge>
+                <Badge className="px-4 py-2 bg-cyan-500/20 border-cyan-500/50 text-cyan-300">
+                  <Shirt className="w-4 h-4 mr-2" />
+                  WillItFit Founder
                 </Badge>
               </div>
             </div>
