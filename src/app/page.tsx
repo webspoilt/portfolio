@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import Link from 'next/link'
+import Image from 'next/image'
 import WebspoiltLogo from '@/components/WebspoiltLogo'
 import Hero3D from '@/components/3DHero'
 import Card3D from '@/components/Card3D'
@@ -27,11 +28,14 @@ interface GitHubRepo {
 }
 
 interface PinnedProject {
-  name: string
+  id?: string
+  name?: string
   title: string
   description: string
   url: string
   website?: string
+  image?: string
+  category?: string
   icon: React.ReactNode
   gradient: string
   features: string[]
@@ -119,11 +123,13 @@ export default function PortfolioPage() {
 
   const pinnedProjects: PinnedProject[] = [
     {
-      name: 'willitfit',
-      title: 'WillItFit',
-      description: 'AI-powered virtual try-on application revolutionizing e-commerce with accurate size recommendations and augmented reality visualization.',
-      url: 'https://github.com/webspoilt/willitfit',
-      website: 'https://willitfit-smoky.vercel.app/',
+      id: "willitfit-unique-id",
+      title: "Will It Fit",
+      description: "A handy web application designed to solve the spatial puzzle: will your furniture or item fit in the desired space? This tool helps users visualize dimensions and avoid logistics headaches before moving or purchasing items.",
+      image: "/images/willitfit.png",
+      url: "https://github.com/webspoilt/willitfit",
+      website: "https://willitfit.vercel.app",
+      category: "Featured",
       icon: <Shirt className="w-8 h-8" />,
       gradient: 'from-cyan-500 via-blue-500 to-indigo-500',
       features: [
@@ -133,7 +139,7 @@ export default function PortfolioPage() {
         'Real-time Analysis',
         'Cross-Platform'
       ],
-      tech: ['Next.js', 'Python', 'Bun', 'TensorFlow', 'React']
+      tech: ["HTML", "CSS", "JavaScript"]
     },
     {
       name: 'vault',
@@ -618,15 +624,30 @@ export default function PortfolioPage() {
                     <div className="flex flex-col lg:flex-row gap-8">
                       {/* Icon & Title */}
                       <div className="lg:w-1/3">
-                        <motion.div
-                          whileHover={{ rotate: 360, scale: 1.1 }}
-                          transition={{ duration: 0.6 }}
-                          className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${project.gradient} flex items-center justify-center mb-6 shadow-lg shadow-purple-500/30`}
-                        >
-                          <div className="text-white">
-                            {project.icon}
-                          </div>
-                        </motion.div>
+                        {project.image ? (
+                          <motion.div
+                            whileHover={{ scale: 1.05 }}
+                            transition={{ duration: 0.3 }}
+                            className="w-full h-48 rounded-2xl overflow-hidden mb-6 shadow-lg shadow-purple-500/30 relative"
+                          >
+                            <Image
+                              src={project.image}
+                              alt={project.title}
+                              fill
+                              className="object-cover"
+                            />
+                          </motion.div>
+                        ) : (
+                          <motion.div
+                            whileHover={{ rotate: 360, scale: 1.1 }}
+                            transition={{ duration: 0.6 }}
+                            className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${project.gradient} flex items-center justify-center mb-6 shadow-lg shadow-purple-500/30`}
+                          >
+                            <div className="text-white">
+                              {project.icon}
+                            </div>
+                          </motion.div>
+                        )}
                         <h3 className="text-3xl md:text-4xl font-bold text-white mb-2">
                           {project.title}
                         </h3>
