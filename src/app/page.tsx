@@ -128,7 +128,7 @@ export default function PortfolioPage() {
       description: "A handy web application designed to solve the spatial puzzle: will your furniture or item fit in the desired space? This tool helps users visualize dimensions and avoid logistics headaches before moving or purchasing items.",
       image: "/images/willitfit.png",
       url: "https://github.com/webspoilt/willitfit",
-      website: "https://willitfit.vercel.app",
+      website: "https://willitfit-smoky.vercel.app/",
       category: "Featured",
       icon: <Shirt className="w-8 h-8" />,
       gradient: 'from-cyan-500 via-blue-500 to-indigo-500',
